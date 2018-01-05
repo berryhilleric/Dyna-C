@@ -1,0 +1,50 @@
+Creator: Eric Berryhill
+Language: EC programming language - Eric's C-like language
+
+Variable Definitions:
+	1) start with keyword 'var'
+	2) provide a identifier that is unique to the scope and consist on only of alphabetic characters
+	3) a variable MUST be initialized when declaring it;
+	4) end with a semicolon
+
+	examples: var myvarzero = 1; var myvarone = 1 + 2; var myvartwo = $initVar(void);
+
+Function Definitions:
+	1) start with keyword 'function'
+	2) provide an id that is unique to the scope and consist of only alphabetic characters
+	3) immediately follow id with a open paranthesis and a (potentially empty) list of parameters then a close parenthesis -- if empty, keyword 'void' should be used in place of parameters.
+	4) every function declaration requires you to define the function-- this is accomplished with the following rules:
+		i)immediately after the close parenthesis, follow it with an open curly bracket
+		ii) provide the body of the function
+		iii) end the body with a close curly bracket
+
+	example: 
+	function myfunc(pone ptwo) 
+	{ 
+		var myvar = pone + ptwo;
+	}
+
+Function Calls:
+	1) every function call begins with a the character $
+	2) provide the name of the function and then the appropriate list of arguments -- if know arguements are needed, keyword 'void' should be used.
+	3)Like scam, functions return the last line evaluated
+	4) if the function call is a statement, end with semicolon;
+
+	example: $myfunc((1 + 2));
+
+Iterations: 
+	Only while loops available. Syntax is the same as C using the 'while' keyword except curly braces for the body are always required and the && || operators are not available
+
+Conditionals: 
+	Operate the same as in C using the 'if' keyword, but the operators && and || are not available  
+
+
+Arithmetic : 
+	This language handles +, -, *, and /. The operators are left associative and parenthesis can be used to further control precedence of an equation.
+
+Printing: 
+	The built-in function 'println' is provided to you to print strings, variables, and numbers to the console. It is variadic in nature. It is used in the same manner as regular function calls
+
+comments: 
+		start and end with the character '#'
+

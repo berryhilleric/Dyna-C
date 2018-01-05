@@ -1,0 +1,14 @@
+var myvarone = 0;
+var myvartwo = 10;
+
+function fun(pone ptwo)
+{
+	if(myvarone < myvartwo)
+	{
+		@myvarone = myvarone + 1;
+		$println(myvarone myvartwo);
+		$fun(myvarone myvartwo);
+	}
+}
+
+$fun(myvarone myvartwo);

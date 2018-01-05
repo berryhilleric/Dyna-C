@@ -1,0 +1,7 @@
+var myvarone = 0;
+var myvartwo = 2;
+
+#COMMENT
+
+@myvarone = 1;
+@myvartwo = 2;

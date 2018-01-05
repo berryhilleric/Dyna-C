@@ -1,0 +1,9 @@
+var myvarone = 1;
+var myvartwo = 2;
+
+function addone(void)
+{
+	myvarone = myvarone + 1;
+}
+
+$addone(void);

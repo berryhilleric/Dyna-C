@@ -1,0 +1,11 @@
+var myvarone = 1;
+var myvartwo = 2;
+var index = 0;
+
+while(index < 10)
+{
+	@myvarone = myvarone + myvartwo;
+	@index = index + 1;
+}
+
+$println(myvarone index);

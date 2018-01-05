@@ -1,0 +1,22 @@
+var myvarone = 1;
+var myvartwo = 2;
+var myvarthree = 0;
+
+if(myvartwo > myvarone)
+{
+	@myvarthree = 3;
+}
+
+
+$println(myvarthree);
+
+if(myvartwo < myvarone)
+{
+	@myvarthree = 3;
+}
+else if(myvarthree == 3)
+{
+	@myvarthree = 4;
+}
+
+$println(myvarthree);

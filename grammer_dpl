@@ -1,0 +1,69 @@
+check() - used to check for terminals
+match() - used to make sure the terminal is of the correct type and forwards the lexer
+
+
+
+arglist: expressionone
+	   | expressionone arglist
+	   | VOID
+
+arrayDef: ARRAY ID OBRACKET unary CBRACKET ASSIGN elements
+
+arrayIndex: ID OBRACKET unary CBRACKET
+
+assignment: ASSIGNMENT ID optindex ASSIGN expressionone 
+
+body: statement 
+	| definition
+	| statement body
+	| definition body
+
+condition: IF OPAREN condexpr CPAREN OBRACKET body CBRACKET optelse
+
+condexpr: expressionone
+		| expressionone condop expression
+
+condop: GT | GTE | LT | LTE | EQUAL | NOTEQUAL
+
+definition: varDef SEMI
+		  | arrayDef SEMI
+		  | funcDef
+
+elements: NUMBER
+		| NUMBER COMMA elements
+
+
+expressionone: expressiontwo opone expressionone 
+			 | expressiontwo
+
+expressiontwo: unary optwo unary 
+			 | unary
+
+funcCall: CALL ID OPAREN arglist CPAREN 
+
+funcDef: FUNCTION ID OPAREN paramlist CPAREN OBRACKET body CBRACKET
+
+loop: WHILE OPAREN condexpr CPAREN OBRACKET body CBRACKET
+
+opone: PLUS | MINUS 
+
+optwo: MULTIPLY | DIVIDE 
+
+optelse: condition						///this rule is integrated into the 
+	   | OBRACKET body CPBRACKET		///condition function; not explicitly used
+
+paramlist: ID | ID paramlist | VOID
+
+program: statement 
+	   | definition   
+	   | statement program
+	   | definition program
+
+statement: condition 
+		 | loop 
+		 | expressionone SEMI
+		 | assignment SEMI
+
+unary: ID | NUMBER | STRING | funcCall | arrayIndex | OPAREN expressionone CPAREN 	
+
+varDef: VAR ID ASSIGN expressionone
