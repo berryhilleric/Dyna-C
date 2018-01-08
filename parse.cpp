@@ -93,16 +93,16 @@ lexeme* arglist(){
 lexeme* arrayDef()
 {
 	lexeme *ad = new lexeme("ARRAYDEF");
-	lexeme *glue1 = new lexeme("GLUE");
-	lexeme *glue2 = new lexeme("GLUE");
+	// lexeme *glue1 = new lexeme("GLUE");
+	lexeme *glue = new lexeme("GLUE");
 	match("ARRAY");
 	ad->setLeft(match("ID"));
-	match("OBRACE");
-	glue1->cons(unary(), glue2); //unary() gets the index value
-	match("CBRACE");
+	// match("OBRACE");
+	// glue1->cons(unary(), glue2); //unary() gets the index value
+	// match("CBRACE");
 	match("ASSIGN");
-	glue2->setLeft(elements());
-	ad->setRight(glue1);
+	glue->setLeft(elements());
+	ad->setRight(glue);
 	return ad;
 }
 

@@ -1,8 +1,1 @@
-var myvar = 12 * 12 - 4 / 2;
-@myvar = 1 - 1 - 1 - 1 - 1 - 1 * 82;
-
-$println(myvar);
-
-@myvar = (10 + ((((1 - 1 - 1 - 1 - 1 - 1 * 82)))));
-
-$println(myvar);
+array myarr = 1, 2, 3, 4;

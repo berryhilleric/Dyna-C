@@ -69,6 +69,7 @@ lexeme* lex()
 	    case ',': return new lexeme("COMMA");
 	    case '$': return new lexeme("CALL");
 	    case '@': return new lexeme("ASSIGNMENT");
+	    // case '~': return new lexeme("ARRAYINDEX");
 	    case '!': 
 	    	in.get(ch);
 	    	if(ch == '=')
