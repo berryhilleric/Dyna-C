@@ -32,6 +32,12 @@ Function Calls:
 
 	example: $myfunc((1 + 2));
 
+Array Declaration:
+	1) start with the keyword "array"
+	2) followed by an open brace, an expression that resolves to a number, and then a close brace
+	3) an assinment character
+	4) followed by a comma delimited list of numbers
+
 Iterations: 
 	Only while loops available. Syntax is the same as C using the 'while' keyword except curly braces for the body are always required and the && || operators are not available
 
