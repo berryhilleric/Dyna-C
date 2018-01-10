@@ -73,6 +73,6 @@ int main(int argc, char **argv)
 	eval(tree, env);
 	// cout << "\tEND OF PROGRAM ENVIRONMENT:" << endl;
 	// displayEnv(env);
-	exploreTree(tree);
+	// exploreTree(tree);
 	return 0;
 }

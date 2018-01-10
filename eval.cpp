@@ -2,6 +2,8 @@
 //values and uses makeTable to assign the values of the arguments to make a 
 //new environment with the parameters have the values of the arguments
 
+//current problem: the two situations you run into when evaluating an array index is assignment, updating,  and looking up the value
+
 
 #include <cstdlib>
 #include <iostream>
@@ -62,6 +64,10 @@ lexeme* eval(lexeme* tree, lexeme* env)
 	{
 		return evalFuncDef(tree, env);
 	}
+	else if(tree->getType().compare("ARRAYDEF") == 0 )
+	{
+		return evalarrayDef(tree, env);
+	}
 	else if(tree->getType().compare("IF") == 0 )
 	{
 		return evalIf(tree, env);
@@ -97,7 +103,7 @@ lexeme* evalArgs(lexeme* tree, lexeme* env)
 
 		if(a->getType().compare("ID") == 0)
 		{
-			a = lookupEnv(env, a->getValue());
+			a = lookupEnv(env, a);
 		}
 		else if(a->getType().compare("VOID") == 0)
 		{
@@ -121,7 +127,7 @@ lexeme* evalarrayDef(lexeme* tree, lexeme* env)
 	object containing the list of elements. I believe I only allow numbers in my array, so
 	it would just return the list of numbers*/
 
-	lexeme *e = setArrayElements(tree->getRight()->getRight()->getLeft()); //returns the elements
+	lexeme *e = setArrayElements(tree->getRight()->getLeft()); //returns the elements
 	insert(env, tree->getLeft(), e);
 	return e;
 }
@@ -153,7 +159,7 @@ bool evalCondExpr(lexeme* tree, lexeme* env)
 	lexeme* c1 = eval(tree->getLeft(), env);
 	if(c1->getType().compare("ID") == 0)
 	{
-		c1 = lookupEnv(env, c1->getValue());
+		c1 = lookupEnv(env, c1);
 	}
 	tree = tree->getRight();
 	if(tree != NULL)
@@ -164,7 +170,7 @@ bool evalCondExpr(lexeme* tree, lexeme* env)
 			lexeme *lhs = c1, *rhs;
 			if(tree->getRight()->getLeft()->getType().compare("ID") == 0)
 			{
-				rhs = lookupEnv(env, tree->getRight()->getLeft()->getValue());
+				rhs = lookupEnv(env, tree->getRight()->getLeft());
 			}
 			else
 			{
@@ -178,7 +184,7 @@ bool evalCondExpr(lexeme* tree, lexeme* env)
 			lexeme *lhs = c1, *rhs;
 			if(tree->getRight()->getLeft()->getType().compare("ID") == 0)
 			{
-				rhs = lookupEnv(env, tree->getRight()->getLeft()->getValue());
+				rhs = lookupEnv(env, tree->getRight()->getLeft());
 			}
 			else
 			{
@@ -192,7 +198,7 @@ bool evalCondExpr(lexeme* tree, lexeme* env)
 			lexeme *lhs = c1, *rhs;
 			if(tree->getRight()->getLeft()->getType().compare("ID") == 0)
 			{
-				rhs = lookupEnv(env, tree->getRight()->getLeft()->getValue());
+				rhs = lookupEnv(env, tree->getRight()->getLeft());
 			}
 			else
 			{
@@ -206,7 +212,7 @@ bool evalCondExpr(lexeme* tree, lexeme* env)
 			lexeme *lhs = c1, *rhs;
 			if(tree->getRight()->getLeft()->getType().compare("ID") == 0)
 			{
-				rhs = lookupEnv(env, tree->getRight()->getLeft()->getValue());
+				rhs = lookupEnv(env, tree->getRight()->getLeft());
 			}
 			else
 			{
@@ -220,7 +226,7 @@ bool evalCondExpr(lexeme* tree, lexeme* env)
 			lexeme *lhs = c1, *rhs;
 			if(tree->getRight()->getLeft()->getType().compare("ID") == 0)
 			{
-				rhs = lookupEnv(env, tree->getRight()->getLeft()->getValue());
+				rhs = lookupEnv(env, tree->getRight()->getLeft());
 			}
 			else
 			{
@@ -234,7 +240,7 @@ bool evalCondExpr(lexeme* tree, lexeme* env)
 			lexeme *lhs = c1, *rhs;
 			if(tree->getRight()->getLeft()->getType().compare("ID") == 0)
 			{
-				rhs = lookupEnv(env, tree->getRight()->getLeft()->getValue());
+				rhs = lookupEnv(env, tree->getRight()->getLeft());
 			}
 			else
 			{
@@ -256,14 +262,14 @@ lexeme* evalDivide(lexeme* tree, lexeme* env)
 
 	if(op1->getType().compare("ID") == 0)
 	{
-		op1 = lookupEnv(env, op1->getValue());
+		op1 = lookupEnv(env, op1);
 	}
 
 	lexeme* op2 = eval(tree->getRight(), env);
 
 	if(op2->getType().compare("ID") == 0)
 	{
-		op2 = lookupEnv(env, op2->getValue());
+		op2 = lookupEnv(env, op2);
 	}
 
 	if(op1->getType().compare("STRING") == 0 || op2->getType().compare("STRING") == 0)
@@ -292,7 +298,7 @@ lexeme* evalFuncCall(lexeme* tree, lexeme* env)
 		return evalPrintln(a);
 	}
 
-	lexeme* c = lookupEnv(env, tree->getLeft()->getValue());
+	lexeme* c = lookupEnv(env, tree->getLeft());
 	
 	lexeme* x = extendEnv(getClosureEnv(c), getClosureParams(c), a);
 	return eval(getClosureBody(c), x);
@@ -301,7 +307,7 @@ lexeme* evalFuncCall(lexeme* tree, lexeme* env)
 
 lexeme* evalFuncDef(lexeme* tree, lexeme* env)
 {
-	lexeme* c = new lexeme("CLOSURE", tree, env);
+	lexeme* c = new lexeme("CLOSURE", tree, env); //left pointer points to the funcDef, right points to the defining environment
 	insert(env, tree->getLeft(), c);
 	return c;
 }
@@ -361,15 +367,16 @@ lexeme* evalMultiply(lexeme* tree, lexeme* env)
 
 	if(op1->getType().compare("ID") == 0)
 	{
-		op1 = lookupEnv(env, op1->getValue());
+		op1 = lookupEnv(env, op1);
 	}
 
 	lexeme* op2 = eval(tree->getRight(), env);
 
 	if(op2->getType().compare("ID") == 0)
 	{
-		op2 = lookupEnv(env, op2->getValue());
+		op2 = lookupEnv(env, op2);
 	}
+	//handles the string arithmetic run-time error
 	if(op1->getType().compare("STRING") == 0 || op2->getType().compare("STRING") == 0)
 	{
 		cerr << "Line: " << line - 1 << " or " << line << " -> error, cannot used arithmetic operators on strings." << endl;
@@ -384,14 +391,14 @@ lexeme* evalMinus(lexeme* tree, lexeme* env)
 
 	if(op1->getType().compare("ID") == 0)
 	{
-		op1 = lookupEnv(env, op1->getValue());
+		op1 = lookupEnv(env, op1);
 	}
 
 	lexeme* op2 = eval(tree->getRight(), env);
 
 	if(op2->getType().compare("ID") == 0)
 	{
-		op2 = lookupEnv(env, op2->getValue());
+		op2 = lookupEnv(env, op2);
 	}
 
 	if(op1->getType().compare("STRING") == 0 || op2->getType().compare("STRING") == 0)
@@ -408,14 +415,14 @@ lexeme* evalPlus(lexeme* tree, lexeme* env)
 
 	if(op1->getType().compare("ID") == 0)
 	{
-		op1 = lookupEnv(env, op1->getValue());
+		op1 = lookupEnv(env, op1);
 	}
 	
 	lexeme* op2 = eval(tree->getRight(), env);
 
 	if(op2->getType().compare("ID") == 0)
 	{
-		op2 = lookupEnv(env, op2->getValue());
+		op2 = lookupEnv(env, op2);
 	}
 
 	if(op1->getType().compare("STRING") == 0 || op2->getType().compare("STRING") == 0)
@@ -433,7 +440,7 @@ lexeme* evalPrintln(lexeme* args)
 
 		if(args->getLeft()->getType().compare("ID") == 0)
 		{
-			args->setLeft(lookupEnv(env, args->getLeft()->getValue()));
+			args->setLeft(lookupEnv(env, args->getLeft()));
 		}
 
 		if(args->getLeft()->getType().compare("NUMBER") == 0)
@@ -480,11 +487,13 @@ lexeme* setArrayElements(lexeme* e)
 	lexeme* a = new lexeme("ARRAY");
 	while(e != NULL)
 	{
-		a->getVector().push_back(e->getLeft()->getInt());
+		a->getVector()->push_back(e->getLeft()->getInt());
 		e = e->getRight();
 	}
 	return a;
 }
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -504,7 +513,7 @@ lexeme* extendEnv(lexeme* env, lexeme* variables, lexeme* values)
 	return new lexeme("ENV", makeTable(variables, values), env);
 }
 
-lexeme* lookupEnv(lexeme* env, string v)
+lexeme* lookupEnv(lexeme* env, lexeme* v)
 {
 	while(env != NULL)
 	{
@@ -515,9 +524,16 @@ lexeme* lookupEnv(lexeme* env, string v)
 		while(variables != NULL)
 		{
 			
-			if(variables->getLeft()->getValue().compare(v) == 0)
+			if(variables->getLeft()->getValue().compare(v->getValue()) == 0)
 			{
-				return values->getLeft();
+				if(v->getRight() == NULL)
+				{
+					return values->getLeft();
+				}	
+				else
+				{
+					return new lexeme("NUMBER", values->getLeft()->getVector()->at(eval(v->getRight(), env)->getInt()));
+				}
 			}
 			//walk the list in parallel
 			variables = variables->getRight();
@@ -527,7 +543,7 @@ lexeme* lookupEnv(lexeme* env, string v)
 		
 		env = env->getRight();
 	}
-	cout << "variable \"" << v << "\" is undefined" << endl;
+	cout << "variable \"" << v->getValue() << "\" is undefined" << endl;
 	return NULL;
 }
 
@@ -543,10 +559,18 @@ lexeme* updateEnv(lexeme* env, lexeme* newval, lexeme* v)
 		while(variables != NULL)
 		{
 			
-			if(variables->getLeft()->getValue().compare(v->getValue()) == 0)
+			if(variables->getLeft()->getValue().compare(v->getValue()) == 0) //id matches that of one found in the current environment
 			{
-				values->setLeft(newval);
-				return NULL;
+				if(v->getRight() == NULL)
+				{
+					values->setLeft(newval);
+					return NULL;
+				}
+				else //in the event the ID is an array and has an index value
+				{
+					values->getLeft()->getVector()->at(eval(v->getRight(), env)->getInt()) = newval->getInt();
+					return NULL;
+				}
 			}
 			
 			//walk the list in parallel
@@ -558,7 +582,7 @@ lexeme* updateEnv(lexeme* env, lexeme* newval, lexeme* v)
 		env = env->getRight();
 	}
 
-	cout << "variable \"" << v << "\" is undefined" << endl;
+	cout << "variable \"" << v->getValue() << "\" is undefined" << endl;
 	return NULL;
 }
 

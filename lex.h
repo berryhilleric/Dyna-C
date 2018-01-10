@@ -19,6 +19,7 @@ class lexeme
 			type = t; 
 			right = NULL;
 			left = NULL;
+			v = new vector<int>();
 		}
 
 		lexeme(string t, string s)
@@ -27,6 +28,7 @@ class lexeme
 			val = s;
 			right = NULL;
 			left = NULL;
+			v = new vector<int>();
 		}
 
 		lexeme(string t, int num){
@@ -34,6 +36,7 @@ class lexeme
 			i = num;
 			right = NULL;
 			left = NULL;
+			v = new vector<int>();
 		}
 
 		lexeme(string t, lexeme* variables, lexeme* values) //much like creating a new cons 
@@ -41,6 +44,7 @@ class lexeme
 			type = t;
 			left = variables;
 			right = values;
+			v = new vector<int>();
 		}
 
 		//getters
@@ -54,7 +58,7 @@ class lexeme
 			return val;
 		}
 
-		vector<int> getVector()
+		vector<int>* getVector()
 		{
 			return v;
 		}
@@ -96,7 +100,7 @@ class lexeme
 
 	private:
 		string type, val;
-		vector<int> v;
+		vector<int> *v;
 		int i;
 		lexeme *left, *right;
 

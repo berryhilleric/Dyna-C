@@ -1,1 +1,8 @@
 array myarr = 1, 2, 3, 4;
+
+var i = (myarr[0] + 3 ) * myarr[1];
+$println(i);
+
+@myarr[3] = 5;
+
+$println(myarr[3]);

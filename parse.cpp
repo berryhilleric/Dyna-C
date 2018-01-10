@@ -119,15 +119,15 @@ lexeme* assignment()
 
 	assign->setLeft(match("ID"));
 
-	if(check("OBRACKET"))
+	if(check("OBRACE"))
 	{
-		match("OBRACKET");
-		lexeme *u = unary();
-		match("CBRACKET");
-		lexeme *i = new lexeme("INDEX"); //lets the evaluator know that the variable is being indexed
-		i->setLeft(u);
-		i->setRight(glue);
-		assign->setRight(i);	
+		match("OBRACE");
+		assign->getLeft()->setRight(unary()); //attach index to the ID lexeme
+		match("CBRACE");
+		//lexeme *i = new lexeme("INDEX"); //lets the evaluator know that the variable is being indexed
+		// i->setLeft(u);
+		// i->setRight(glue);
+		assign->setRight(glue);	
 	}
 	else
 	{
@@ -484,7 +484,14 @@ lexeme* unary() //CONVERTED
 
 	if(check("ID"))
 	{
-		return match("ID");
+		lexeme *i = match("ID");
+		if(check("OBRACE"))
+		{
+			match("OBRACE");
+			i->setRight(unary());
+			match("CBRACE");
+		}
+		return i;
 	}
 	else if(check("NUMBER"))
 	{

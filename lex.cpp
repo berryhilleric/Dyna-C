@@ -130,7 +130,7 @@ lexeme* lex()
 	        	return new lexeme("ENDofINPUT");
 	        }
 	        else{
-	        	cout << "ch : " << ch << endl;
+	        	// cout << "ch : " << ch << endl;
 	        	return new lexeme("UNKNOWN", ch);
 	        }
         }

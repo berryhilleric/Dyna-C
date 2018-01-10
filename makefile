@@ -16,6 +16,9 @@ parse.o : parse.cpp parse.h
 eval.o : eval.cpp eval.h
 	g++ $(OPTS) -c eval.cpp
 
+run :
+	./dplan testprogram
+
 error1 :
 	cat error1_test
 

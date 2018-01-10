@@ -3,20 +3,31 @@ Language: EC programming language - Eric's C-like language
 
 Variable Definitions:
 	1) start with keyword 'var'
-	2) provide a identifier that is unique to the scope and consist on only of alphabetic characters
+	2) provide a identifier that is unique to the scope and consist of only of alphabetic characters
 	3) a variable MUST be initialized when declaring it;
 	4) end with a semicolon
 
 	examples: var myvarzero = 1; var myvarone = 1 + 2; var myvartwo = $initVar(void);
 
+Assignment:
+	1) start with the character @
+	2) provide a variable id that has already been defined
+	3) use = character to indicate assignment
+	4) provided value for assignment
+	4) end with a semicolon
+	
+	example: @variable = 5; @variable = 1 + 2 - 3 * 4; @variable[1] = 10;
+
 Function Definitions:
 	1) start with keyword 'function'
 	2) provide an id that is unique to the scope and consist of only alphabetic characters
-	3) immediately follow id with a open paranthesis and a (potentially empty) list of parameters then a close parenthesis -- if empty, keyword 'void' should be used in place of parameters.
+	3) immediately follow id with a open paranthesis and a (potentially empty) list of parameters then a close parenthesis -- if empty, keyword 'void' should be 	used in place of parameters.
 	4) every function declaration requires you to define the function-- this is accomplished with the following rules:
-		i)immediately after the close parenthesis, follow it with an open curly bracket
+		i) immediately after the close parenthesis, follow it with an open curly bracket
 		ii) provide the body of the function
 		iii) end the body with a close curly bracket
+
+	NOTE: functions return the last line of the function -- similiar to scheme and scam programming languages
 
 	example: 
 	function myfunc(pone ptwo) 
@@ -25,12 +36,15 @@ Function Definitions:
 	}
 
 Function Calls:
-	1) every function call begins with a the character $
-	2) provide the name of the function and then the appropriate list of arguments -- if know arguements are needed, keyword 'void' should be used.
-	3)Like scam, functions return the last line evaluated
-	4) if the function call is a statement, end with semicolon;
+	1) starts with the character $
+	2) provide the name of the function that has already been defined and then the appropriate list of arguments -- if know arguements are needed, keyword 'void' should be used.
+	4) if the function call is the entire statement, end it with a semicolon;
 
-	example: $myfunc((1 + 2));
+	example: $myfunc((1 + 2)); 
+	example: if($myfunc(variable)) 
+			 { 
+			 	1 + 2; 
+			 }
 
 Array Declaration:
 	1) start with the keyword "array"
@@ -38,16 +52,26 @@ Array Declaration:
 	3) an assinment character
 	4) followed by a comma delimited list of numbers
 
-Array indexing:
-	1) starts with the ! character
-	2) then it is formatted the same as a c array index
-	example: !myarray[0] = 3;
+	NOTE: only integers are allowed as array elements
+
+	example: array myarr = 1, 2, 3, 4, 5;
+
 
 Iterations: 
 	Only while loops available. Syntax is the same as C using the 'while' keyword except curly braces for the body are always required and the && || operators are not available
 
+	example: while( x < 10)
+			 {
+				...
+			 }
+ 
 Conditionals: 
 	Operate the same as in C using the 'if' keyword, but the operators && and || are not available  
+
+	example: if(x < 10)
+			 {
+			 	...
+			 }
 
 
 Arithmetic : 

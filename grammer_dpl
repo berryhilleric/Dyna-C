@@ -7,9 +7,7 @@ arglist: expressionone
 	   | expressionone arglist
 	   | VOID
 
-arrayDef: ARRAY ID OBRACKET unary CBRACKET ASSIGN elements
-
-arrayIndex: ID OBRACKET unary CBRACKET
+arrayDef: ARRAY ID ASSIGN elements
 
 assignment: ASSIGNMENT ID optindex ASSIGN expressionone 
 
@@ -64,6 +62,7 @@ statement: condition
 		 | expressionone SEMI
 		 | assignment SEMI
 
-unary: ID | NUMBER | STRING | funcCall | arrayIndex | OPAREN expressionone CPAREN 	
+unary: ID | ID OBRACE unary CBRACE | NUMBER | STRING | funcCall | OPAREN expressionone CPAREN
+	 
 
 varDef: VAR ID ASSIGN expressionone
