@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+#my rsa authenticator script
+auth
